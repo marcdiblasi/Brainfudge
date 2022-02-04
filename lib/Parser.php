@@ -34,66 +34,49 @@ class Parser
 
             $plan .= $action;
 
-            switch ($action) {
-                case '<':
-                    $this->memory->shiftLeft();
+            if ('<' === $action) {
+                $this->memory->shiftLeft();
+            } elseif ('>' === $action) {
+                $this->memory->shiftRight();
+            } elseif ('-' === $action) {
+                $this->memory->decrement();
+            } elseif ('+' === $action) {
+                $this->memory->increment();
+            } elseif ('.' === $action) {
+                $byte = $this->memory->output();
+
+                $output .= chr($byte);
+            } elseif (',' === $action) {
+                if (0 === strlen($this->input)) {
+                    $this->memory->input(0);
 
                     break;
-                case '>':
-                    $this->memory->shiftRight();
+                }
 
-                    break;
-                case '-':
-                    $this->memory->decrement();
+                $character = $this->input[0];
+                $this->memory->input($character);
 
-                    break;
-                case '+':
-                    $this->memory->increment();
+                if (1 === strlen($this->input)) {
+                    $this->input = '';
+                } else {
+                    $this->input = substr($this->input, 1);
+                }
+            } elseif ('[' === $action) {
+                if (0 === $this->memory->output()) {
+                    $found = $this->findLoopClose();
 
-                    break;
-                case '.':
-                    $byte = $this->memory->output();
-
-                    $output .= chr($byte);
-
-                    break;
-                case ',':
-                    if (0 === strlen($this->input)) {
-                        $this->memory->input(0);
-
-                        break;
+                    if (!$found) {
+                        throw new \Exception('Error: Missing a "]"');
                     }
+                }
+            } elseif (']' === $action) {
+                if (0 !== $this->memory->output()) {
+                    $found = $this->findLoopOpen();
 
-                    $character = $this->input[0];
-                    $this->memory->input($character);
-
-                    if (1 === strlen($this->input)) {
-                        $this->input = '';
-                    } else {
-                        $this->input = substr($this->input, 1);
+                    if (!$found) {
+                        throw new \Exception('Error: Missing a "["');
                     }
-
-                    break;
-                case '[':
-                    if (0 === $this->memory->output()) {
-                        $found = $this->findLoopClose();
-
-                        if (!$found) {
-                            throw new \Exception('Error: Missing a "]"');
-                        }
-                    }
-
-                    break;
-                case ']':
-                    if (0 !== $this->memory->output()) {
-                        $found = $this->findLoopOpen();
-
-                        if (!$found) {
-                            throw new \Exception('Error: Missing a "["');
-                        }
-                    }
-
-                    break;
+                }
             }
 
             $this->codePointer++;
