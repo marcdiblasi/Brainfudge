@@ -108,7 +108,7 @@ class Parser
     {
         $depth = 0;
 
-        while ('[' !== $this->code[--$this->codePointer] || 0 !== $depth) {
+        while (!('[' === $this->code[--$this->codePointer] && 0 === $depth)) {
             if ($this->codePointer < 0) {
                 return false;
             }
@@ -127,7 +127,7 @@ class Parser
     {
         $depth = 0;
 
-        while (']' !== $this->code[++$this->codePointer] || 0 !== $depth) {
+        while (!(']' === $this->code[++$this->codePointer] && 0 === $depth)) {
             if ($this->codePointer >= strlen($this->code)) {
                 return false;
             }
