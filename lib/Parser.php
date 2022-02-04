@@ -87,7 +87,7 @@ class Parser
 
     protected function nextAction()
     {
-        $commands = ['<', '>', '-', '+', '.', ',', '[', ']'];
+        static $commands = ['<', '>', '-', '+', '.', ',', '[', ']'];
             
         if (!isset($this->code[$this->codePointer])) {
             return false;
