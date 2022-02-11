@@ -25,21 +25,37 @@ class Memory
     public function increment()
     {
         $this->memory[$this->pointer]++;
+
+        if (256 === $this->memory[$this->pointer]) {
+            $this->memory[$this->pointer] = 0;
+        }
     }
 
     public function decrement()
     {
         $this->memory[$this->pointer]--;
+
+        if (-1 === $this->memory[$this->pointer]) {
+            $this->memory[$this->pointer] = 255;
+        }
     }
 
     public function shiftLeft()
     {
         $this->pointer--;
+
+        if ($this->pointer < 0) {
+            $this->pointer = $this->maxMemory - 1;
+        }
     }
 
     public function shiftRight()
     {
         $this->pointer++;
+
+        if ($this->pointer === $this->maxMemory) {
+            $this->pointer = 0;
+        }
     }
 
     public function input($input)
