@@ -49,17 +49,15 @@ class Parser
             } elseif (',' === $action) {
                 if (0 === strlen($this->input)) {
                     $this->memory->input(0);
-
-                    break;
-                }
-
-                $character = $this->input[0];
-                $this->memory->input($character);
-
-                if (1 === strlen($this->input)) {
-                    $this->input = '';
                 } else {
-                    $this->input = substr($this->input, 1);
+                    $character = $this->input[0];
+                    $this->memory->input(ord($character));
+
+                    if (1 === strlen($this->input)) {
+                        $this->input = '';
+                    } else {
+                        $this->input = substr($this->input, 1);
+                    }
                 }
             } elseif ('[' === $action) {
                 if (0 === $this->memory->output()) {

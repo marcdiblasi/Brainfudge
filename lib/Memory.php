@@ -60,7 +60,7 @@ class Memory
 
     public function input($input)
     {
-        $this->memory[$this->pointer] = (int)$input;
+        $this->memory[$this->pointer] = $input;
     }
 
     public function output()
