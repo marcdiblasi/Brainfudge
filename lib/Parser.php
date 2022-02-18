@@ -11,7 +11,7 @@ class Parser
 
     protected $codePointer;
 
-    public function __construct($code, $input = '', $maxMemory = null)
+    public function __construct(string $code, string $input = '', mixed $maxMemory = null)
     {
         $this->code  = $code;
         $this->input = $input;
@@ -21,7 +21,7 @@ class Parser
         $this->memory = new \Brainfudge\Memory($maxMemory);
     }
 
-    public function run()
+    public function run(): string
     {
         $output = '';
         $plan = '';
@@ -83,7 +83,7 @@ class Parser
         return $output;
     }
 
-    protected function nextAction()
+    protected function nextAction(): mixed
     {
         static $commands = ['<', '>', '-', '+', '.', ',', '[', ']'];
             
@@ -102,7 +102,7 @@ class Parser
         return $this->code[$this->codePointer];
     }
 
-    protected function findLoopOpen()
+    protected function findLoopOpen(): bool
     {
         $depth = 0;
 
@@ -121,7 +121,7 @@ class Parser
         return true;
     }
 
-    protected function findLoopClose()
+    protected function findLoopClose(): bool
     {
         $depth = 0;
 

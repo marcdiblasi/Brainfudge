@@ -4,13 +4,13 @@ namespace Brainfudge;
 
 class Memory
 {
-    protected $pointer;
-    protected $memory;
-    protected $maxMemory;
+    protected int $pointer;
+    protected array $memory;
+    protected int $maxMemory;
 
     const DEFAULT_MAX_MEMORY = 30000;
 
-    public function __construct($maxMemory = self::DEFAULT_MAX_MEMORY)
+    public function __construct(mixed $maxMemory = self::DEFAULT_MAX_MEMORY)
     {
         $this->pointer   = 0;
         $this->maxMemory = $maxMemory ?: self::DEFAULT_MAX_MEMORY;
@@ -22,7 +22,7 @@ class Memory
         );
     }
 
-    public function increment()
+    public function increment(): void
     {
         $this->memory[$this->pointer]++;
 
@@ -31,7 +31,7 @@ class Memory
         }
     }
 
-    public function decrement()
+    public function decrement(): void
     {
         $this->memory[$this->pointer]--;
 
@@ -40,7 +40,7 @@ class Memory
         }
     }
 
-    public function shiftLeft()
+    public function shiftLeft(): void
     {
         $this->pointer--;
 
@@ -49,7 +49,7 @@ class Memory
         }
     }
 
-    public function shiftRight()
+    public function shiftRight(): void
     {
         $this->pointer++;
 
@@ -58,12 +58,12 @@ class Memory
         }
     }
 
-    public function input($input)
+    public function input(int $input): void
     {
         $this->memory[$this->pointer] = $input;
     }
 
-    public function output()
+    public function output(): int
     {
         return $this->memory[$this->pointer];
     }
